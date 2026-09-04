@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#16100E">
+  <meta name="description" content="Bar Connections - The Mixologist's Deduction Puzzle. Find four groups of four related cocktail concepts.">
+  <title>Bar Connections — The Mixologist's Deduction Game</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- App Container -->
+  <div id="app" class="app-container">
+    
+    <!-- Editorial Navigation Header -->
+    <header class="bar-header" role="banner">
+      <div class="header-content">
+        <div class="brand-block">
+          <div class="brand-icon-wrapper" aria-hidden="true">
+            <svg class="brand-svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 6h22M6 6l10 12 10-12M16 18v10M11 28h10M13 13h6" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="brand-title">BAR CONNECTIONS</h1>
+            <p class="brand-subtitle">THE MIXOLOGIST'S DEDUCTION PUZZLE</p>
+          </div>
+        </div>
+
+        <nav class="header-actions" aria-label="Game navigation">
+          <button id="btn-sound" class="icon-btn" aria-label="Toggle Sound" title="Toggle Sound">
+            <svg class="icon-svg sound-on-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+            <svg class="icon-svg sound-off-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+          </button>
+          
+          <button id="btn-how-to-play" class="icon-btn" aria-label="How to play" title="Instructions">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </button>
+
+          <button id="btn-stats" class="icon-btn" aria-label="Statistics" title="Player Stats">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </button>
+
+          <button id="btn-codex" class="icon-btn codex-btn" aria-label="Bar Codex" title="Knowledge Codex">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span class="codex-pill">CODEX</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Mode Switcher Tabs -->
+      <div class="mode-tabs" role="tablist" aria-label="Game Modes">
+        <button id="tab-daily" class="mode-tab active" role="tab" aria-selected="true" aria-controls="game-view">
+          <span class="tab-dot"></span> DAILY SPECIMEN
+        </button>
+        <button id="tab-archive" class="mode-tab" role="tab" aria-selected="false" aria-controls="archive-view">
+          <span class="tab-dot"></span> ARCHIVE SHIFTS
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Game Board Container -->
+    <main id="game-view" class="game-view" role="main">
+      
+      <!-- Puzzle Context Meta -->
+      <div class="puzzle-meta-bar">
+        <div class="puzzle-title-block">
+          <span id="puzzle-badge" class="specimen-badge">DAILY SHIFT</span>
+          <h2 id="puzzle-title" class="specimen-title">Specimen #101</h2>
+        </div>
+        
+        <div class="mistakes-tracker" aria-label="Mistakes remaining">
+          <span class="mistakes-label">CHANCES</span>
+          <div id="mistakes-indicator" class="mistakes-pips" aria-live="polite">
+            <span class="pip filled" title="Chance 1"></span>
+            <span class="pip filled" title="Chance 2"></span>
+            <span class="pip filled" title="Chance 3"></span>
+            <span class="pip filled" title="Chance 4"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Feedback Toast Area -->
+      <div id="toast-container" class="toast-container" aria-live="assertive"></div>
+
+      <!-- Solved Groups Banner Stack -->
+      <section id="solved-groups-container" class="solved-stack" aria-label="Solved connections"></section>
+
+      <!-- Interactive 4x4 Grid of 16 Cards -->
+      <section id="cards-grid" class="cards-grid" role="group" aria-label="Cocktail tiles to group">
+        <!-- 16 cards dynamically populated by script.js -->
+      </section>
+
+      <!-- Selection & Station Controls -->
+      <div class="action-dock">
+        <div class="action-buttons-row">
+          <button id="btn-shuffle" class="btn-secondary" title="Shuffle remaining cards">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 3 21 3 21 8"></polyline>
+              <line x1="4" y1="20" x2="21" y2="3"></line>
+              <polyline points="21 16 21 21 16 21"></polyline>
+              <line x1="15" y1="15" x2="21" y2="21"></line>
+              <line x1="4" y1="4" x2="9" y2="9"></line>
+            </svg>
+            <span>Shuffle</span>
+          </button>
+
+          <button id="btn-deselect" class="btn-secondary" disabled title="Deselect chosen cards">
+            <span>Deselect</span>
+          </button>
+
+          <button id="btn-hint" class="btn-secondary btn-hint" title="Request subtle bartender guidance">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18h6"></path>
+              <path d="M10 22h4"></path>
+              <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.7 3 6v1h8v-1c1.5-1.3 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
+            </svg>
+            <span>Clue</span>
+          </button>
+
+          <button id="btn-submit" class="btn-primary" disabled title="Submit 4 cards for evaluation">
+            <span>Submit Pour</span>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Archive Modal / Screen -->
+    <section id="archive-view" class="view-panel hidden" role="region" aria-label="Puzzle Archive">
+      <div class="panel-header">
+        <h2 class="panel-title">ARCHIVE CELLAR</h2>
+        <button class="close-panel-btn" data-close="archive-view" aria-label="Return to active shift">✕</button>
+      </div>
+      <p class="panel-desc">Master classic shifts from cocktail lore. Each puzzle trains distinct professional associations.</p>
+      <div id="archive-list" class="archive-grid">
+        <!-- Archive cards populated dynamically -->
+      </div>
+    </section>
+
+    <!-- Codex / Knowledge Base Screen -->
+    <section id="codex-view" class="view-panel hidden" role="region" aria-label="Mixologist Codex">
+      <div class="panel-header">
+        <div class="codex-header-title">
+          <h2 class="panel-title">BAR CODEX</h2>
+          <span id="codex-progress-badge" class="codex-badge">0 / 32 Discovered</span>
+        </div>
+        <button class="close-panel-btn" data-close="codex-view" aria-label="Close Codex">✕</button>
+      </div>
+      <p class="panel-desc">Every solved connection decodes real cocktail architecture, historical specs, and service logic.</p>
+      
+      <!-- Category Filter Pills -->
+      <div class="codex-filters" id="codex-filters">
+        <button class="filter-pill active" data-filter="all">All Disciplines</button>
+        <button class="filter-pill" data-filter="Foundations">Foundations</button>
+        <button class="filter-pill" data-filter="Technique">Technique</button>
+        <button class="filter-pill" data-filter="Structure">Structure</button>
+        <button class="filter-pill" data-filter="Lore">Lore & Master</button>
+      </div>
+
+      <div id="codex-grid" class="codex-grid">
+        <!-- Unlocked entries displayed here -->
+      </div>
+    </section>
+
+    <!-- Modal Backdrop -->
+    <div id="modal-overlay" class="modal-overlay hidden" aria-hidden="true"></div>
+
+    <!-- How To Play Modal -->
+    <div id="modal-how-to-play" class="modal-dialog hidden" role="dialog" aria-modal="true" aria-labelledby="rules-title">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="rules-title" class="modal-heading">HOW TO PLAY</h3>
+          <button class="modal-close-icon" data-close-modal aria-label="Close modal">✕</button>
+        </div>
+        <div class="modal-body rules-body">
+          <p class="rules-lead">A bartender doesn't merely memorize ingredients. <strong>A bartender perceives relationships.</strong></p>
+          
+          <div class="rule-step">
+            <div class="step-num">1</div>
+            <div class="step-desc">
+              <strong>Group 16 Cards into 4 Sets of 4</strong>
+              <p>Uncover four hidden relationships across cocktails, glassware, modifiers, methods, history, and physics.</p>
+            </div>
+          </div>
+
+          <div class="rule-step">
+            <div class="step-num">2</div>
+            <div class="step-desc">
+              <strong>Select 4 &amp; Tap "Submit Pour"</strong>
+              <p>Look out for <em>cunning distractors</em>: four drinks might share rum, but only three are authentic Sours.</p>
+            </div>
+          </div>
+
+          <div class="rule-step">
+            <div class="step-num">3</div>
+            <div class="step-desc">
+              <strong>Beware the 4-Mistake Limit</strong>
+              <p>Keep your station clean. 3 of 4 match? You'll be warned that you are "One Away."</p>
+            </div>
+          </div>
+
+          <div class="difficulty-guide">
+            <h4 class="guide-title">CATEGORY TIERS</h4>
+            <div class="tier-row"><span class="tier-swatch tier-1"></span> <strong>Foundations:</strong> Classic cocktail families &amp; core spirits</div>
+            <div class="tier-row"><span class="tier-swatch tier-2"></span> <strong>Technique &amp; Tools:</strong> Shakers, glassware, ice &amp; service</div>
+            <div class="tier-row"><span class="tier-swatch tier-3"></span> <strong>Structure &amp; Spec:</strong> Ratios, bitters, chemistry &amp; aromatics</div>
+            <div class="tier-row"><span class="tier-swatch tier-4"></span> <strong>Master &amp; Obscure:</strong> Deceptive distractors, historical canon &amp; lore</div>
+          </div>
+
+          <button class="btn-primary modal-action-btn" data-close-modal>Step Behind the Stick</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats & Achievements Modal -->
+    <div id="modal-stats" class="modal-dialog hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="stats-title" class="modal-heading">SERVICE RECORD</h3>
+          <button class="modal-close-icon" data-close-modal aria-label="Close modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="stats-summary-grid">
+            <div class="stat-card">
+              <span id="stat-played" class="stat-val">0</span>
+              <span class="stat-lbl">Shifts Worked</span>
+            </div>
+            <div class="stat-card">
+              <span id="stat-win-rate" class="stat-val">0%</span>
+              <span class="stat-lbl">Service Rate</span>
+            </div>
+            <div class="stat-card">
+              <span id="stat-current-streak" class="stat-val">0</span>
+              <span class="stat-lbl">Current Streak</span>
+            </div>
+            <div class="stat-card">
+              <span id="stat-max-streak" class="stat-val">0</span>
+              <span class="stat-lbl">Best Streak</span>
+            </div>
+          </div>
+
+          <div class="service-rank-box">
+            <span class="rank-sub">CURRENT BARTENDER RANK</span>
+            <h4 id="stat-rank" class="rank-name">Apprentice Barback</h4>
+            <p id="stat-rank-desc" class="rank-desc">Starting out. Learning basic recipes and glassware.</p>
+          </div>
+
+          <h4 class="guide-title">GUESSES TAKEN WHEN SOLVED</h4>
+          <div id="guess-distribution-graph" class="guess-distribution">
+            <!-- Bars for 0 mistakes, 1 mistake, 2, 3 -->
+          </div>
+
+          <button class="btn-primary modal-action-btn" data-close-modal>Back to Service</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Solved / Game Over Modal -->
+    <div id="modal-game-over" class="modal-dialog hidden" role="dialog" aria-modal="true" aria-labelledby="game-over-title">
+      <div class="modal-content victory-content">
+        <div class="modal-header">
+          <h3 id="game-over-title" class="modal-heading">SERVICE COMPLETED</h3>
+          <button class="modal-close-icon" data-close-modal aria-label="Close modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div id="game-over-verdict" class="game-over-verdict">
+            <span id="verdict-rank" class="verdict-rank">CLEAN SWEEP</span>
+            <h4 id="verdict-headline" class="verdict-headline">Exceptional Station Awareness</h4>
+            <p id="verdict-sub" class="verdict-sub">You solved today's specimen with zero spilled drinks.</p>
+          </div>
+
+          <div id="game-over-categories" class="game-over-groups-list">
+            <!-- Populated with color cards of all 4 groups -->
+          </div>
+
+          <div class="share-box">
+            <button id="btn-share" class="btn-primary share-btn">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              <span>Share Shift Ticket</span>
+            </button>
+            <button id="btn-review-codex" class="btn-secondary">Explore In Codex</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

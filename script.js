@@ -298,7 +298,6 @@
       }
     }
 
-    // High glass tap
     playSelect() {
       if (this.isMuted || !this.ctx) return;
       this.resumeContext();
@@ -320,7 +319,6 @@
       osc.stop(now + 0.04);
     }
 
-    // Subtler wood deselect tap
     playDeselect() {
       if (this.isMuted || !this.ctx) return;
       this.resumeContext();
@@ -342,7 +340,6 @@
       osc.stop(now + 0.04);
     }
 
-    // Double chime notice
     playNearMiss() {
       if (this.isMuted || !this.ctx) return;
       this.resumeContext();
@@ -368,7 +365,6 @@
       });
     }
 
-    // Muted low thud for mistake
     playMistake() {
       if (this.isMuted || !this.ctx) return;
       this.resumeContext();
@@ -390,7 +386,6 @@
       osc.stop(now + 0.22);
     }
 
-    // Crystal harmonic toast
     playSolvedGroup() {
       if (this.isMuted || !this.ctx) return;
       this.resumeContext();
@@ -416,7 +411,6 @@
       });
     }
 
-    // Shift complete fanfare
     playVictory() {
       if (this.isMuted || !this.ctx) return;
       this.resumeContext();
@@ -459,8 +453,8 @@
         currentStreak: 0,
         maxStreak: 0,
         lastDailyDate: null,
-        solvedPuzzles: {}, // puzzleId -> { mistakes: number, timestamp: number }
-        codexUnlocked: {}, // categoryName -> groupData
+        solvedPuzzles: {},
+        codexUnlocked: {},
         guessDist: { '0': 0, '1': 0, '2': 0, '3': 0 },
         soundMuted: false
       };
@@ -561,21 +555,30 @@
 
       this.cacheDOMElements();
       this.bindEvents();
-      this.initDailyPuzzle();
       this.renderCodex();
     }
 
     cacheDOMElements() {
       this.dom = {
-        // App header controls
+        // App header & Home
+        btnHomeMenu: document.getElementById('btn-home-menu'),
         btnSound: document.getElementById('btn-sound'),
         soundOnIcon: document.querySelector('.sound-on-icon'),
         soundOffIcon: document.querySelector('.sound-off-icon'),
         btnHowToPlay: document.getElementById('btn-how-to-play'),
         btnStats: document.getElementById('btn-stats'),
         btnCodex: document.getElementById('btn-codex'),
-        tabDaily: document.getElementById('tab-daily'),
-        tabArchive: document.getElementById('tab-archive'),
+
+        // Views / Hub
+        menuView: document.getElementById('menu-view'),
+        gameView: document.getElementById('game-view'),
+        archiveView: document.getElementById('archive-view'),
+        codexView: document.getElementById('codex-view'),
+
+        // Menu Hub Buttons
+        menuBtnDaily: document.getElementById('menu-btn-daily'),
+        menuBtnArchive: document.getElementById('menu-btn-archive'),
+        menuBtnCodex: document.getElementById('menu-btn-codex'),
 
         // Puzzle header
         puzzleBadge: document.getElementById('puzzle-badge'),
@@ -594,10 +597,7 @@
         btnHint: document.getElementById('btn-hint'),
         btnSubmit: document.getElementById('btn-submit'),
 
-        // Panels & views
-        gameView: document.getElementById('game-view'),
-        archiveView: document.getElementById('archive-view'),
-        codexView: document.getElementById('codex-view'),
+        // Panels & lists
         archiveList: document.getElementById('archive-list'),
         codexGrid: document.getElementById('codex-grid'),
         codexFilters: document.getElementById('codex-filters'),
@@ -654,7 +654,28 @@
         this.dom.soundOffIcon.classList.toggle('hidden', !muted);
       });
 
-      // Navigation & Modals
+      // Main Menu / Home button
+      this.dom.btnHomeMenu.addEventListener('click', () => this.showMenuView());
+
+      // Menu Hub Actions
+      this.dom.menuBtnDaily.addEventListener('click', () => {
+        this.initDailyPuzzle();
+        this.showGameView();
+      });
+
+      this.dom.menuBtnArchive.addEventListener('click', () => {
+        this.renderArchive();
+        this.dom.archiveView.classList.remove('hidden');
+        this.dom.archiveView.setAttribute('aria-hidden', 'false');
+      });
+
+      this.dom.menuBtnCodex.addEventListener('click', () => {
+        this.renderCodex();
+        this.dom.codexView.classList.remove('hidden');
+        this.dom.codexView.setAttribute('aria-hidden', 'false');
+      });
+
+      // Header Navigation Modals
       this.dom.btnHowToPlay.addEventListener('click', () => this.openModal(this.dom.modalHowToPlay));
       this.dom.btnStats.addEventListener('click', () => {
         this.renderStats();
@@ -683,30 +704,6 @@
       });
 
       this.dom.modalOverlay.addEventListener('click', () => this.closeAllModals());
-
-      // Tabs
-      this.dom.tabDaily.addEventListener('click', () => {
-        this.dom.tabDaily.classList.add('active');
-        this.dom.tabDaily.setAttribute('aria-selected', 'true');
-        this.dom.tabArchive.classList.remove('active');
-        this.dom.tabArchive.setAttribute('aria-selected', 'false');
-        this.dom.archiveView.classList.add('hidden');
-        this.dom.archiveView.setAttribute('aria-hidden', 'true');
-        this.dom.codexView.classList.add('hidden');
-        this.dom.codexView.setAttribute('aria-hidden', 'true');
-        this.isDailyMode = true;
-        this.initDailyPuzzle();
-      });
-
-      this.dom.tabArchive.addEventListener('click', () => {
-        this.dom.tabArchive.classList.add('active');
-        this.dom.tabArchive.setAttribute('aria-selected', 'true');
-        this.dom.tabDaily.classList.remove('active');
-        this.dom.tabDaily.setAttribute('aria-selected', 'false');
-        this.renderArchive();
-        this.dom.archiveView.classList.remove('hidden');
-        this.dom.archiveView.setAttribute('aria-hidden', 'false');
-      });
 
       // In-game board buttons
       this.dom.btnShuffle.addEventListener('click', () => this.shuffleCards());
@@ -744,11 +741,25 @@
       });
     }
 
+    showMenuView() {
+      this.dom.gameView.classList.add('hidden');
+      this.dom.gameView.setAttribute('aria-hidden', 'true');
+      this.dom.menuView.classList.remove('hidden');
+      this.dom.menuView.setAttribute('aria-hidden', 'false');
+      this.closeAllModals();
+    }
+
+    showGameView() {
+      this.dom.menuView.classList.add('hidden');
+      this.dom.menuView.setAttribute('aria-hidden', 'true');
+      this.dom.gameView.classList.remove('hidden');
+      this.dom.gameView.setAttribute('aria-hidden', 'false');
+    }
+
     /* ==========================================================================
        6. PUZZLE LIFECYCLE & BOARD INITIALIZATION
        ========================================================================== */
     initDailyPuzzle() {
-      // Deterministic calendar daily calculation
       const now = new Date();
       const startOfYear = new Date(now.getFullYear(), 0, 0);
       const diff = now - startOfYear;
@@ -771,12 +782,10 @@
       this.historyGuesses = [];
       this.hintIndex = 0;
 
-      // Update Header Text
       this.dom.puzzleBadge.textContent = isDaily ? 'DAILY SHIFT SPECIMEN' : 'ARCHIVE CELLAR SHIFT';
       this.dom.puzzleTitle.textContent = puzzle.title;
       this.dom.puzzleSubtitle.textContent = puzzle.subtitle;
 
-      // Collect all 16 items and randomize positions
       let allItems = [];
       puzzle.groups.forEach(group => {
         allItems.push(...group.items);
@@ -856,13 +865,11 @@
 
       const idx = this.selectedCards.indexOf(item);
       if (idx > -1) {
-        // Deselect
         this.selectedCards.splice(idx, 1);
         tileElement.classList.remove('selected');
         tileElement.setAttribute('aria-pressed', 'false');
         this.sound.playDeselect();
       } else {
-        // Select
         if (this.selectedCards.length >= 4) {
           this.showToast('You can only choose 4 cards at a time.');
           this.sound.playDeselect();
@@ -1112,11 +1119,8 @@
         card.addEventListener('click', () => {
           this.dom.archiveView.classList.add('hidden');
           this.dom.archiveView.setAttribute('aria-hidden', 'true');
-          this.dom.tabArchive.classList.remove('active');
-          this.dom.tabArchive.setAttribute('aria-selected', 'false');
-          this.dom.tabDaily.classList.remove('active');
-          this.dom.tabDaily.setAttribute('aria-selected', 'false');
           this.loadPuzzle(puzzle, false);
+          this.showGameView();
         });
 
         this.dom.archiveList.appendChild(card);

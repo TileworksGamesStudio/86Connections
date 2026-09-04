@@ -19,11 +19,11 @@
     <header class="bar-header" role="banner">
       <div class="header-inner">
         <div class="brand-block">
-          <div class="brand-icon-wrapper" aria-hidden="true">
+          <button id="btn-home-menu" class="brand-icon-wrapper" aria-label="Return to Main Menu" title="Main Menu">
             <svg class="brand-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 4h16M5 4l7 9 7-9M12 13v7M8 20h8M9 9h6" />
             </svg>
-          </div>
+          </button>
           <div class="brand-text">
             <h1 class="brand-title">BAR CONNECTIONS</h1>
             <p class="brand-subtitle">THE MIXOLOGIST'S DEDUCTION PUZZLE</p>
@@ -69,20 +69,63 @@
           </button>
         </nav>
       </div>
-
-      <!-- Mode Switcher Tabs -->
-      <div class="mode-tabs" role="tablist" aria-label="Game Modes">
-        <button id="tab-daily" class="mode-tab active" role="tab" aria-selected="true" aria-controls="game-view" type="button">
-          <span class="tab-dot" aria-hidden="true"></span> DAILY SHIFT
-        </button>
-        <button id="tab-archive" class="mode-tab" role="tab" aria-selected="false" aria-controls="archive-view" type="button">
-          <span class="tab-dot" aria-hidden="true"></span> ARCHIVE CELLAR
-        </button>
-      </div>
     </header>
 
+    <!-- Main Application Hub / Landing Hub View -->
+    <section id="menu-view" class="menu-view" role="region" aria-label="Main Menu">
+      <div class="menu-hero">
+        <span class="specimen-badge">MIXOLOGY HUB</span>
+        <h2 class="menu-hero-title">Step Behind the Bar</h2>
+        <p class="menu-hero-desc">Test your pattern recognition across classic specs, barware geometry, ice chemistry, and vintage liqueur lore.</p>
+      </div>
+
+      <div class="menu-cards-stack">
+        <button id="menu-btn-daily" class="menu-card primary-menu-card" type="button">
+          <div class="menu-card-icon">🍸</div>
+          <div class="menu-card-content">
+            <span class="menu-card-tag">TODAY'S SERVICE</span>
+            <h3 class="menu-card-title">Daily Shift Specimen</h3>
+            <p class="menu-card-sub">Curated fresh daily challenge for professional mixologists.</p>
+          </div>
+          <div class="menu-card-arrow">→</div>
+        </button>
+
+        <button id="menu-btn-archive" class="menu-card" type="button">
+          <div class="menu-card-icon">🏛️</div>
+          <div class="menu-card-content">
+            <span class="menu-card-tag">TRAINING VAULT</span>
+            <h3 class="menu-card-title">Archive Cellar</h3>
+            <p class="menu-card-sub">Revisit and replay all five canonical training shifts.</p>
+          </div>
+          <div class="menu-card-arrow">→</div>
+        </button>
+
+        <button id="menu-btn-codex" class="menu-card" type="button">
+          <div class="menu-card-icon">📖</div>
+          <div class="menu-card-content">
+            <span class="menu-card-tag">KNOWLEDGE BASE</span>
+            <h3 class="menu-card-title">Bar Codex Directory</h3>
+            <p class="menu-card-sub">Review unlocked formulas, history, and structural specs.</p>
+          </div>
+          <div class="menu-card-arrow">→</div>
+        </button>
+      </div>
+
+      <!-- Required Tileworks Home Link -->
+      <footer class="menu-footer">
+        <a href="https://tileworksgamesstudio.github.io/86/" class="tileworks-home-link" target="_blank" rel="noopener noreferrer">
+          <span>Tileworks Games Studio</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" width="14" height="14">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </footer>
+    </section>
+
     <!-- Main Game Board Container -->
-    <main id="game-view" class="game-view" role="main">
+    <main id="game-view" class="game-view hidden" role="main" aria-hidden="true">
       
       <!-- Puzzle Meta Info -->
       <div class="puzzle-meta-bar">

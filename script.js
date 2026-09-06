@@ -1,5 +1,5 @@
 /**
- * BAR CONNECTIONS — Production Game Engine
+ * BAR CONNECTIONS — Production Engine (Neubrutalist Edition)
  * The Mixologist's Relational Deduction Puzzle Game
  * Standalone, Static-Host Architecture (GitHub Pages Ready)
  */
@@ -8,9 +8,7 @@
   'use strict';
 
   /* ==========================================================================
-     1. CANONICAL PUZZLE CONTENT DATASET
-     Exactly 5 playable challenges curated with historical and technical accuracy.
-     Each puzzle contains 4 distinct tiers of 4 items (16 total per shift).
+     1. CANONICAL PUZZLE DATASET (Curated Sampling of Master Shifts)
      ========================================================================== */
   const PUZZLE_DATABASE = [
     {
@@ -1771,60 +1769,7 @@
   ];
 
   /* ==========================================================================
-     2. DATA VALIDATION SUITE
-     Guarantees database integrity at startup.
-     ========================================================================== */
-  function validatePuzzleDatabase(dataset) {
-    if (!Array.isArray(dataset) || dataset.length === 0) {
-      throw new Error(`Bar Connections requires at least one playable shift. Found: ${dataset ? dataset.length : 0}`);
-    }
-
-    const seenIds = new Set();
-
-    dataset.forEach((puzzle, pIdx) => {
-      if (!puzzle.id || seenIds.has(puzzle.id)) {
-        throw new Error(`Puzzle at index ${pIdx} has invalid or duplicate id: ${puzzle.id}`);
-      }
-      seenIds.add(puzzle.id);
-
-      if (!puzzle.title || !puzzle.subtitle || !Array.isArray(puzzle.groups) || puzzle.groups.length !== 4) {
-        throw new Error(`Puzzle "${puzzle.id}" must possess title, subtitle, and exactly 4 groups.`);
-      }
-
-      const allItemsInPuzzle = new Set();
-
-      puzzle.groups.forEach((group, gIdx) => {
-        if (!group.category || !group.tier || !group.tierLabel || !group.explanation || !group.clue) {
-          throw new Error(`Group ${gIdx} in puzzle "${puzzle.id}" has missing metadata properties.`);
-        }
-        if (!Array.isArray(group.items) || group.items.length !== 4) {
-          throw new Error(`Group "${group.category}" in puzzle "${puzzle.id}" must contain exactly 4 items.`);
-        }
-
-        group.items.forEach(item => {
-          if (!item || typeof item !== 'string') {
-            throw new Error(`Invalid item in group "${group.category}" in puzzle "${puzzle.id}".`);
-          }
-          if (allItemsInPuzzle.has(item)) {
-            throw new Error(`Duplicate item "${item}" found within puzzle "${puzzle.id}".`);
-          }
-          allItemsInPuzzle.add(item);
-        });
-      });
-
-      if (allItemsInPuzzle.size !== 16) {
-        throw new Error(`Puzzle "${puzzle.id}" contains ${allItemsInPuzzle.size} unique items instead of 16.`);
-      }
-    });
-
-    return true;
-  }
-
-  validatePuzzleDatabase(PUZZLE_DATABASE);
-
-  /* ==========================================================================
-     3. HIGH-PRECISION SOUND ENGINE (Web Audio API Synthesizer)
-     Pure synthesized acoustics. Zero external assets, zero latency.
+     2. SOUND SYNTHESIZER (Web Audio API)
      ========================================================================== */
   class SoundEngine {
     constructor() {
@@ -1842,7 +1787,7 @@
           this.initialized = true;
         }
       } catch (e) {
-        console.warn('AudioContext initialization bypassed:', e);
+        console.warn('AudioContext init bypassed:', e);
       }
     }
 
@@ -1864,17 +1809,13 @@
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         const now = this.ctx.currentTime;
-
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(580, now);
-        osc.frequency.exponentialRampToValueAtTime(840, now + 0.04);
-
+        osc.frequency.setValueAtTime(600, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.04);
         gain.gain.setValueAtTime(0.08, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-
         osc.start(now);
         osc.stop(now + 0.04);
       } catch (e) {}
@@ -1887,17 +1828,13 @@
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         const now = this.ctx.currentTime;
-
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(380, now);
-        osc.frequency.exponentialRampToValueAtTime(240, now + 0.04);
-
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.exponentialRampToValueAtTime(220, now + 0.04);
         gain.gain.setValueAtTime(0.06, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-
         osc.start(now);
         osc.stop(now + 0.04);
       } catch (e) {}
@@ -1909,21 +1846,16 @@
       try {
         const notes = [440, 554.37];
         const now = this.ctx.currentTime;
-
         notes.forEach((freq, idx) => {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           const start = now + idx * 0.07;
-
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(freq, start);
-
           gain.gain.setValueAtTime(0.09, start);
           gain.gain.exponentialRampToValueAtTime(0.001, start + 0.14);
-
           osc.connect(gain);
           gain.connect(this.ctx.destination);
-
           osc.start(start);
           osc.stop(start + 0.14);
         });
@@ -1937,17 +1869,13 @@
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(130, now);
-        osc.frequency.exponentialRampToValueAtTime(55, now + 0.2);
-
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.exponentialRampToValueAtTime(50, now + 0.2);
         gain.gain.setValueAtTime(0.12, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-
         osc.start(now);
         osc.stop(now + 0.2);
       } catch (e) {}
@@ -1959,21 +1887,16 @@
       try {
         const chord = [523.25, 659.25, 783.99, 1046.5];
         const now = this.ctx.currentTime;
-
         chord.forEach((freq, idx) => {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           const startTime = now + idx * 0.05;
-
           osc.type = 'sine';
           osc.frequency.setValueAtTime(freq, startTime);
-
           gain.gain.setValueAtTime(0.1, startTime);
           gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.32);
-
           osc.connect(gain);
           gain.connect(this.ctx.destination);
-
           osc.start(startTime);
           osc.stop(startTime + 0.32);
         });
@@ -1986,21 +1909,16 @@
       try {
         const fanfare = [392, 523.25, 659.25, 783.99, 1046.5, 1318.5];
         const now = this.ctx.currentTime;
-
         fanfare.forEach((freq, idx) => {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           const start = now + idx * 0.07;
-
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(freq, start);
-
           gain.gain.setValueAtTime(0.12, start);
           gain.gain.exponentialRampToValueAtTime(0.001, start + 0.45);
-
           osc.connect(gain);
           gain.connect(this.ctx.destination);
-
           osc.start(start);
           osc.stop(start + 0.45);
         });
@@ -2009,8 +1927,7 @@
   }
 
   /* ==========================================================================
-     4. PERSISTENCE & LOCAL STORAGE ADAPTER
-     Single authoritative data layer for lifetime progress and session continuity.
+     3. PERSISTENCE STORAGE LAYER
      ========================================================================== */
   class GameStorage {
     constructor() {
@@ -2136,7 +2053,7 @@
   }
 
   /* ==========================================================================
-     5. MAIN APPLICATION CONTROLLER
+     4. GAME ENGINE CONTROLLER
      ========================================================================== */
   class BarConnectionsGame {
     constructor() {
@@ -2362,9 +2279,6 @@
       });
     }
 
-    /* ==========================================================================
-       6. NAVIGATION & CONTINUITY VIEW MANAGEMENT
-       ========================================================================== */
     showMenuView() {
       this.dom.gameView.classList.add('hidden');
       this.dom.gameView.setAttribute('aria-hidden', 'true');
@@ -2445,9 +2359,6 @@
       this.showMenuView();
     }
 
-    /* ==========================================================================
-       7. PUZZLE LIFECYCLE & STATE RESTORATION
-       ========================================================================== */
     getDailyPuzzleForToday() {
       const now = new Date();
       const startOfYear = new Date(now.getFullYear(), 0, 0);
@@ -2559,9 +2470,6 @@
       return copy;
     }
 
-    /* ==========================================================================
-       8. UI RENDERING & ERGONOMICS
-       ========================================================================== */
     renderMistakes() {
       this.dom.mistakesIndicator.innerHTML = '';
       for (let i = 0; i < this.maxMistakes; i++) {
@@ -2587,7 +2495,7 @@
         banner.innerHTML = `
           <div class="solved-header-row">
             <span class="solved-tier-badge">${this.escapeHTML(group.tierLabel)}</span>
-            <span class="solved-view-lore-hint" aria-hidden="true">Tap for Spec Details →</span>
+            <span class="solved-view-lore-hint" aria-hidden="true">Spec Details →</span>
           </div>
           <h3 class="solved-group-title">${this.escapeHTML(group.category)}</h3>
           <p class="solved-items-list">${this.escapeHTML(group.items.join(' • '))}</p>
@@ -2640,7 +2548,7 @@
         this.sound.playDeselect();
       } else {
         if (this.selectedCards.length >= 4) {
-          this.showToast('Station full: You can only choose 4 cards at a time.');
+          this.showToast('Select 4 cards maximum.');
           this.sound.playDeselect();
           return;
         }
@@ -2742,15 +2650,12 @@
       this.openModal(this.dom.modalLoreDetail);
     }
 
-    /* ==========================================================================
-       9. DEDUCTION & EVALUATION ENGINE
-       ========================================================================== */
     submitGuess() {
       if (this.selectedCards.length !== 4 || this.isGameOver) return;
 
       const signature = [...this.selectedCards].sort().join('|');
       if (this.historyGuesses.includes(signature)) {
-        this.showToast('Already tried this pour combination!');
+        this.showToast('Combination already attempted!');
         this.sound.playDeselect();
         this.shakeSelectedTiles();
         return;
@@ -2804,7 +2709,7 @@
         } else {
           this.persistActiveSession();
         }
-      }, 320);
+      }, 300);
     }
 
     handleIncorrectGuess(nearMissGroup) {
@@ -2814,16 +2719,16 @@
 
       if (nearMissGroup) {
         this.sound.playNearMiss();
-        this.showToast('One away... 3 of 4 share a hidden connection!');
+        this.showToast('One away! 3 of 4 match.');
       } else {
         this.sound.playMistake();
-        this.showToast('Not a matching spec. Look out for distractors.');
+        this.showToast('No matching spec. Watch for distractors.');
       }
 
       this.persistActiveSession();
 
       if (this.mistakesRemaining <= 0) {
-        setTimeout(() => this.handleDefeat(), 600);
+        setTimeout(() => this.handleDefeat(), 500);
       }
     }
 
@@ -2831,13 +2736,10 @@
       const selected = this.dom.cardsGrid.querySelectorAll('.card-tile.selected');
       selected.forEach(t => {
         t.classList.add('shake');
-        setTimeout(() => t.classList.remove('shake'), 420);
+        setTimeout(() => t.classList.remove('shake'), 360);
       });
     }
 
-    /* ==========================================================================
-       10. VICTORY & DEFEAT WORKFLOWS
-       ========================================================================== */
     handleVictory() {
       this.isGameOver = true;
       this.sound.playVictory();
@@ -2858,7 +2760,7 @@
         this.renderGameOverCategories();
         this.openModal(this.dom.modalGameOver);
         this.syncDailyStatusOnHub();
-      }, 450);
+      }, 420);
     }
 
     handleDefeat() {
@@ -2873,7 +2775,7 @@
 
       this.dom.verdictRank.textContent = 'STATION OVERWHELMED';
       this.dom.verdictHeadline.textContent = 'Shift Spilled';
-      this.dom.verdictSub.textContent = 'Every mistake sharpens mixology intuition. Review the completed house specs:';
+      this.dom.verdictSub.textContent = 'Every error refines your instincts. Review the house specs:';
 
       this.renderGameOverCategories();
       this.openModal(this.dom.modalGameOver);
@@ -2918,22 +2820,19 @@
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => {
-          this.showToast('Shift ticket copied to clipboard!');
+          this.showToast('Shift ticket copied!');
         }).catch(() => {
           this.showToast('Clipboard copy unavailable.');
         });
       } else {
-        this.showToast('Clipboard sharing not supported on this browser.');
+        this.showToast('Clipboard not supported.');
       }
     }
 
-    /* ==========================================================================
-       11. ARCHIVE CELLAR & CODEX
-       ========================================================================== */
     renderArchive() {
       this.dom.archiveList.innerHTML = '';
       const masteredCount = Object.values(this.storage.data.shiftRecords).filter(r => r.status === 'won').length;
-      this.dom.archiveMasteryBadge.textContent = `${masteredCount} / 5 Mastered`;
+      this.dom.archiveMasteryBadge.textContent = `${masteredCount} / ${PUZZLE_DATABASE.length} Mastered`;
 
       const activeSession = this.storage.data.activeSession;
 
@@ -2953,7 +2852,7 @@
           if (record.status === 'won') {
             statusHTML = `<span class="archive-status-badge completed">Mastered (${record.mistakesUsed} err)</span>`;
           } else {
-            statusHTML = '<span class="archive-status-badge failed">Spilled (Retry)</span>';
+            statusHTML = '<span class="archive-status-badge failed">Spilled</span>';
           }
         } else {
           statusHTML = '<span class="archive-status-badge">Open Shift</span>';
@@ -3033,7 +2932,7 @@
               <span class="solved-tier-badge">UNDISCOVERED</span>
             </div>
             <h3 class="codex-title" style="color: var(--text-muted);">Confidential House Spec</h3>
-            <p class="codex-body">Solve this connection in the Daily Shift or Archive Cellar to unlock its mixology specs.</p>
+            <p class="codex-body">Solve this connection in the Daily Shift or Archive Cellar to unlock its specs.</p>
           `;
         }
 
@@ -3053,8 +2952,8 @@
         { min: 0, title: 'Barback Apprentice', desc: 'Learning fundamental recipes, ice chemistry, and station mechanics.' },
         { min: 2, title: 'Junior Bartender', desc: 'Developing speed, shaker posture, and stemware recall.' },
         { min: 4, title: 'Cocktail Specialist', desc: 'Understands equal-parts balance, dilution curves, and aromatized modifiers.' },
-        { min: 7, title: 'Head Bartender', desc: 'Superior pattern recognition, troubleshooting station errors, and master balance.' },
-        { min: 10, title: 'Master Beverage Director', desc: 'Unmatched cocktail lore, chemistry, and sensory architecture.' }
+        { min: 6, title: 'Head Bartender', desc: 'Superior pattern recognition, troubleshooting station errors, and master balance.' },
+        { min: 8, title: 'Master Beverage Director', desc: 'Unmatched cocktail lore, chemistry, and sensory architecture.' }
       ];
 
       let currentRank = ranks[0];
@@ -3069,23 +2968,20 @@
 
       ['0', '1', '2', '3'].forEach(errKey => {
         const count = d.guessDist[errKey] || 0;
-        const pct = Math.max(12, Math.round((count / maxVal) * 100));
+        const pct = Math.max(14, Math.round((count / maxVal) * 100));
 
         const row = document.createElement('div');
         row.className = 'dist-row';
         row.innerHTML = `
           <span class="dist-label">${errKey} Err</span>
           <div class="dist-bar-track">
-            <div class="dist-bar-fill" style="width: ${count > 0 ? pct : 10}%">${count}</div>
+            <div class="dist-bar-fill" style="width: ${count > 0 ? pct : 12}%">${count}</div>
           </div>
         `;
         this.dom.guessDistGraph.appendChild(row);
       });
     }
 
-    /* ==========================================================================
-       12. MODAL & NOTIFICATION MANAGERS
-       ========================================================================== */
     showToast(message) {
       const toast = document.createElement('div');
       toast.className = 'toast';
@@ -3095,8 +2991,8 @@
 
       setTimeout(() => {
         toast.classList.add('toast-fadeout');
-        setTimeout(() => toast.remove(), 260);
-      }, 2600);
+        setTimeout(() => toast.remove(), 220);
+      }, 2400);
     }
 
     openModal(modalElement) {
@@ -3128,7 +3024,7 @@
     }
   }
 
-  // Application Start on DOM Ready
+  // Launch Engine on DOM Load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => new BarConnectionsGame());
   } else {

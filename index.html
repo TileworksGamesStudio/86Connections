@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Cocktail Connections — Daily Mixology Puzzle</title>
-  <meta name="description" content="Find groups of four related cocktail ingredients, spirits, techniques, and bar lore in this daily mixology challenge.">
+  <title>CONNECTIONS</title>
+  <meta name="description" content="Find groups of four related items.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <!-- Ambient Atmospheric Cocktail Lounge Background & Floating Garnishes -->
+  <!-- Ambient Atmospheric Background -->
   <div class="lounge-background" aria-hidden="true">
     <div class="ambient-glow glow-1"></div>
     <div class="ambient-glow glow-2"></div>
@@ -22,143 +22,78 @@
   </div>
 
   <div class="app-viewport">
-    <!-- ================================================================= -->
-    <!-- 1. STANDALONE MAIN MENU SCREEN                                   -->
-    <!-- ================================================================= -->
-    <section id="screen-menu" class="screen screen-menu" aria-label="Main Menu">
-      <!-- Menu Header -->
+    
+    <!-- INITIALIZATION OVERLAY -->
+    <section id="screen-loading" class="screen screen-loading" aria-label="Loading Application">
+      <div class="loading-content">
+        <h1 class="platform-game-title">CONNECTIONS</h1>
+        <p id="loading-status-text">Verifying release schedule...</p>
+        <button id="btn-retry-init" class="btn btn-primary is-hidden" type="button">Try Again</button>
+      </div>
+    </section>
+
+    <!-- MAIN MENU SCREEN -->
+    <section id="screen-menu" class="screen screen-menu is-hidden" aria-label="Main Menu">
       <header class="menu-header">
-        <a href="https://tileworksgamesstudio.github.io/86/" class="brand-badge-link" aria-label="Return to 86 Cocktail Games Platform Hub">
-          <span class="brand-badge">86</span>
-        </a>
-        <div class="menu-title-block">
-          <h1 class="platform-game-title">CONNECTIONS</h1>
-          <span class="platform-game-sub">COCKTAIL EDITION</span>
-        </div>
+        <h1 class="platform-game-title">CONNECTIONS</h1>
       </header>
 
-      <!-- Primary Action: Today's Puzzle Hero Card -->
       <div class="today-hero-card" id="today-hero-card">
         <div class="hero-top-strip">
-          <span class="hero-day-pill" id="menu-day-pill">TODAY’S PUZZLE • DAY 0</span>
-          <span class="hero-diff-pill" id="menu-diff-pill">EASY</span>
+          <span class="hero-day-pill" id="menu-day-pill">TODAY’S PUZZLE</span>
+          <span class="hero-diff-pill" id="menu-diff-pill">DIFFICULTY</span>
         </div>
-        <h2 class="hero-puzzle-title" id="menu-puzzle-title">First Call</h2>
-        <p class="hero-curriculum" id="menu-puzzle-curriculum">Cocktail Families &amp; Glassware</p>
-        
+        <h2 class="hero-puzzle-title" id="menu-puzzle-title">Puzzle Title</h2>
         <div class="hero-status-row">
-          <span class="hero-status-indicator" id="menu-status-text">Ready to pour • 4 groups of 4</span>
+          <span class="hero-status-indicator" id="menu-status-text">Ready</span>
         </div>
-
         <button id="btn-play-today" class="btn btn-primary btn-hero" type="button">
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          <span id="btn-play-today-text">PLAY TODAY’S PUZZLE</span>
+          <span id="btn-play-today-text">PLAY</span>
         </button>
       </div>
 
-      <!-- Navigation Grid: Vault, Stats, Rules -->
-      <nav class="menu-nav-grid" aria-label="Game Modes and Information">
+      <nav class="menu-nav-grid" aria-label="Game Modes">
         <button id="btn-menu-vault" class="menu-card-btn" type="button">
-          <div class="menu-card-icon-box">
-            <svg class="menu-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          </div>
-          <div class="menu-card-details">
-            <span class="menu-card-title">THE VAULT</span>
-            <span class="menu-card-sub" id="menu-vault-sub">Past Challenges</span>
-          </div>
-          <span class="menu-card-arrow">&rarr;</span>
+          <span class="menu-card-title">VAULT</span>
         </button>
-
         <button id="btn-menu-stats" class="menu-card-btn" type="button">
-          <div class="menu-card-icon-box">
-            <svg class="menu-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-          </div>
-          <div class="menu-card-details">
-            <span class="menu-card-title">STATISTICS</span>
-            <span class="menu-card-sub">Streaks &amp; Win Rate</span>
-          </div>
-          <span class="menu-card-arrow">&rarr;</span>
+          <span class="menu-card-title">STATISTICS</span>
         </button>
-
         <button id="btn-menu-help" class="menu-card-btn" type="button">
-          <div class="menu-card-icon-box">
-            <svg class="menu-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-          </div>
-          <div class="menu-card-details">
-            <span class="menu-card-title">HOW TO PLAY</span>
-            <span class="menu-card-sub">Rules &amp; Difficulty Tiers</span>
-          </div>
-          <span class="menu-card-arrow">&rarr;</span>
+          <span class="menu-card-title">HOW TO PLAY</span>
         </button>
       </nav>
 
-      <!-- Platform Global Footer: Hub & Sound Control -->
       <footer class="menu-footer">
-        <a href="https://tileworksgamesstudio.github.io/86/" class="btn btn-secondary btn-home-link" aria-label="Return to 86 Cocktail Games Hub">
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-          <span>86 COCKTAIL HUB</span>
-        </a>
-
         <button id="btn-menu-sound" class="btn btn-secondary btn-sound-control" type="button" aria-pressed="true" aria-label="Toggle Sound">
-          <svg id="menu-sound-icon-on" class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-          <svg id="menu-sound-icon-off" class="btn-icon is-hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
           <span id="menu-sound-text">SOUND: ON</span>
         </button>
       </footer>
     </section>
 
-    <!-- ================================================================= -->
-    <!-- 2. ACTIVE GAMEPLAY SCREEN                                         -->
-    <!-- ================================================================= -->
+    <!-- ACTIVE GAMEPLAY SCREEN -->
     <section id="screen-game" class="screen screen-game is-hidden" aria-label="Active Game Board">
-      <!-- Game Top Bar -->
       <header class="game-top-bar">
-        <button id="btn-back-to-menu" class="game-back-btn" type="button" aria-label="Return to main menu">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          <span class="game-back-text">MENU</span>
-        </button>
-
-        <div class="game-header-center">
-          <span class="game-top-title">CONNECTIONS</span>
-          <span id="game-day-badge" class="game-day-pill">DAY 0</span>
-        </div>
-
+        <button id="btn-back-to-menu" class="btn btn-secondary" type="button">MENU</button>
+        <h2 class="game-top-title">CONNECTIONS</h2>
         <div class="game-top-actions">
-          <button id="btn-game-sound" class="game-icon-btn" type="button" aria-label="Toggle sound">
-            <svg id="game-sound-icon-on" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-            <svg id="game-sound-icon-off" class="icon is-hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-          </button>
-          <button id="btn-game-stats" class="game-icon-btn" type="button" aria-label="View statistics">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-          </button>
-          <button id="btn-game-help" class="game-icon-btn" type="button" aria-label="How to play">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-          </button>
+          <button id="btn-game-sound" class="btn btn-secondary" type="button">SOUND</button>
         </div>
       </header>
 
-      <!-- Active Puzzle Metadata Strip -->
       <section class="meta-strip" aria-label="Puzzle details">
         <div class="meta-pill day-pill">
-          <span class="meta-label">DAY</span>
-          <span id="puzzle-day-number" class="meta-val">0</span>
+          <span id="puzzle-date-label" class="meta-val">YYYY-MM-DD</span>
         </div>
-        <div class="meta-curriculum" id="puzzle-curriculum" title="Cocktail Curriculum Focus">Cocktail Families &amp; Glassware</div>
         <div class="meta-pill diff-pill" id="puzzle-diff-pill">
-          <span id="puzzle-difficulty">EASY</span>
+          <span id="puzzle-difficulty">DIFFICULTY</span>
         </div>
       </section>
 
-      <!-- Instructions Prompt -->
-      <p class="game-instruction" id="game-instruction">Create four groups of four!</p>
-
-      <!-- Solved Categories Stack -->
       <div id="solved-categories-stack" class="solved-categories" aria-live="polite" aria-atomic="true"></div>
 
-      <!-- Hero Element: 16-Tile Interactive Word Grid -->
-      <main id="grid-container" class="board-grid" role="group" aria-label="Cocktail tiles grid"></main>
+      <main id="grid-container" class="board-grid" role="group" aria-label="Tiles grid"></main>
 
-      <!-- Mistakes & Lives Counter -->
       <section class="status-panel" aria-label="Game progress">
         <span class="status-label">Mistakes remaining:</span>
         <div id="mistake-indicators" class="mistake-dots" aria-label="4 attempts remaining">
@@ -169,37 +104,26 @@
         </div>
       </section>
 
-      <!-- Action Controls -->
       <footer class="action-bar">
         <button id="btn-shuffle" class="btn btn-secondary" type="button">Shuffle</button>
-        <button id="btn-deselect" class="btn btn-secondary" type="button" disabled>Deselect All</button>
+        <button id="btn-deselect" class="btn btn-secondary" type="button" disabled>Deselect</button>
         <button id="btn-submit" class="btn btn-primary" type="button" disabled>Submit</button>
       </footer>
     </section>
 
-    <!-- ================================================================= -->
-    <!-- 3. THE VAULT SCREEN (Archive of Released Puzzles)                 -->
-    <!-- ================================================================= -->
+    <!-- THE VAULT SCREEN -->
     <section id="screen-vault" class="screen screen-vault is-hidden" aria-label="The Vault Archive">
       <header class="vault-screen-header">
-        <button id="btn-vault-back-menu" class="game-back-btn" type="button" aria-label="Return to menu">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          <span class="game-back-text">MENU</span>
-        </button>
-        <div class="vault-title-group">
-          <h2 class="vault-main-title">THE VAULT</h2>
-          <span class="vault-main-sub">Historical Cocktail Challenges</span>
-        </div>
-        <div style="width: 44px;"></div>
+        <button id="btn-vault-back-menu" class="btn btn-secondary" type="button">MENU</button>
+        <h2 class="vault-main-title">VAULT</h2>
       </header>
 
       <div class="vault-body">
-        <p class="vault-intro">Revisit previously released daily puzzles. Missed days do not advance the streak.</p>
         <div id="vault-list" class="vault-list-container"></div>
       </div>
 
       <footer class="vault-screen-footer">
-        <button id="btn-vault-go-today" class="btn btn-primary btn-full" type="button">Play Today’s Challenge</button>
+        <button id="btn-vault-go-today" class="btn btn-primary btn-full" type="button">Today's Puzzle</button>
       </footer>
     </section>
   </div>
@@ -212,45 +136,35 @@
     <div class="modal-card">
       <header class="modal-header">
         <h2 id="help-title" class="modal-title">HOW TO PLAY</h2>
-        <button class="btn-close-modal" data-close="modal-help" aria-label="Close instructions">&times;</button>
+        <button class="btn-close-modal" data-close="modal-help" aria-label="Close">X</button>
       </header>
       <div class="modal-body">
-        <p class="modal-lead">Find groups of four items that share a common cocktail, bar, or mixology connection.</p>
         <ul class="help-rules-list">
-          <li>Select four tiles and tap <strong>Submit</strong> to check your guess.</li>
-          <li>Find the groups without making 4 mistakes!</li>
-          <li>Each puzzle has exactly one unique solution. Watch out for cocktail red herrings!</li>
+          <li>Find groups of four related items.</li>
+          <li>Select four tiles and tap Submit.</li>
+          <li>Complete the puzzle without making 4 mistakes.</li>
         </ul>
-        <h3 class="category-legend-title">DIFFICULTY LEVELS</h3>
         <div class="category-legend">
           <div class="legend-row legend-yellow">
             <span class="legend-swatch"></span>
-            <div class="legend-info">
-              <strong>Straightforward:</strong> Classic cocktail families, base spirits, and fundamental glassware.
-            </div>
+            <div class="legend-info">Straightforward connections.</div>
           </div>
           <div class="legend-row legend-green">
             <span class="legend-swatch"></span>
-            <div class="legend-info">
-              <strong>Developing:</strong> Modifiers, fortified aperitifs, fresh bar produce, and classic garnishes.
-            </div>
+            <div class="legend-info">Developing concepts.</div>
           </div>
           <div class="legend-row legend-blue">
             <span class="legend-swatch"></span>
-            <div class="legend-info">
-              <strong>Technical:</strong> Specifications, botanicals, ice architecture, and distillation science.
-            </div>
+            <div class="legend-info">Technical knowledge.</div>
           </div>
           <div class="legend-row legend-purple">
             <span class="legend-swatch"></span>
-            <div class="legend-info">
-              <strong>Cocktail Lore &amp; Wordplay:</strong> Shaker techniques, compound drink names, and obscure speakeasy history.
-            </div>
+            <div class="legend-info">Wordplay and subtle links.</div>
           </div>
         </div>
       </div>
       <footer class="modal-footer">
-        <button class="btn btn-primary btn-full" data-close="modal-help">Got It</button>
+        <button class="btn btn-primary btn-full" data-close="modal-help">Close</button>
       </footer>
     </div>
   </div>
@@ -259,8 +173,8 @@
   <div id="modal-stats" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
     <div class="modal-card">
       <header class="modal-header">
-        <h2 id="stats-title" class="modal-title">YOUR STATISTICS</h2>
-        <button class="btn-close-modal" data-close="modal-stats" aria-label="Close statistics">&times;</button>
+        <h2 id="stats-title" class="modal-title">STATISTICS</h2>
+        <button class="btn-close-modal" data-close="modal-stats" aria-label="Close">X</button>
       </header>
       <div class="modal-body">
         <div class="stats-grid">
@@ -274,15 +188,14 @@
           </div>
           <div class="stat-box">
             <span class="stat-number" id="stat-streak">0</span>
-            <span class="stat-name">Current Streak</span>
+            <span class="stat-name">Streak</span>
           </div>
           <div class="stat-box">
             <span class="stat-number" id="stat-max-streak">0</span>
             <span class="stat-name">Max Streak</span>
           </div>
         </div>
-        <h3 class="stats-subheading">PERFECT SERVICE</h3>
-        <p class="stats-note">Puzzles solved with zero mistakes: <strong id="stat-zero-mistakes" class="gold-num">0</strong></p>
+        <p class="stats-note">Zero mistakes: <strong id="stat-zero-mistakes" class="gold-num">0</strong></p>
       </div>
       <footer class="modal-footer">
         <button class="btn btn-secondary btn-full" data-close="modal-stats">Close</button>
@@ -290,29 +203,27 @@
     </div>
   </div>
 
-  <!-- Game Completion / Result Modal -->
+  <!-- Result Modal -->
   <div id="modal-result" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="result-title">
     <div class="modal-card">
       <header class="modal-header">
-        <h2 id="result-title" class="modal-title">LAST CALL</h2>
-        <button class="btn-close-modal" data-close="modal-result" aria-label="Close result dialog">&times;</button>
+        <h2 id="result-title" class="modal-title">RESULT</h2>
+        <button class="btn-close-modal" data-close="modal-result" aria-label="Close">X</button>
       </header>
       <div class="modal-body">
         <div class="result-banner" id="result-banner">
-          <span id="result-badge" class="result-badge">PERFECT ROUND</span>
-          <p id="result-msg" class="result-msg">Every specification shaken to perfection.</p>
+          <span id="result-badge" class="result-badge">STATUS</span>
+          <p id="result-msg" class="result-msg">Message</p>
         </div>
         <div id="result-emoji-grid" class="result-emoji-grid" aria-label="Result pattern"></div>
       </div>
       <footer class="modal-footer modal-footer-actions">
-        <button id="btn-share" class="btn btn-primary btn-full" type="button">Share Result</button>
-        <button id="btn-result-menu" class="btn btn-secondary btn-full" type="button">Main Menu</button>
+        <button id="btn-share" class="btn btn-primary btn-full" type="button">Share</button>
+        <button id="btn-result-menu" class="btn btn-secondary btn-full" type="button">Menu</button>
       </footer>
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="puzzles.js"></script>
-  <script src="script.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>

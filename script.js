@@ -2,7 +2,7 @@
   'use strict';
 
   // Config & Constants
-  const STORAGE_KEY = 'connections_save_v1';
+  const STORAGE_KEY = 'Cocktail_connections_save_v1';
   const MAX_MISTAKES = 4;
   const LEVEL_EMOJIS = { 1: '🟨', 2: '🟩', 3: '🟦', 4: '🟪' };
   const HOME_PLACEHOLDER_URL = 'https://tileworksgamesstudio.github.io/86/';

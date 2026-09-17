@@ -2,38 +2,10 @@
   'use strict';
 
   // Config & Constants
-  const STORAGE_KEY = 'Cocktail_connections_save_v1';
+  const STORAGE_KEY = 'connections_save_v1';
   const MAX_MISTAKES = 4;
   const LEVEL_EMOJIS = { 1: '🟨', 2: '🟩', 3: '🟦', 4: '🟪' };
-  const HOME_PLACEHOLDER_URL = 'https://tileworksgamesstudio.github.io/86/';
-
-  // Exactly 12 distinct cocktail garnish SVG paths & shapes
-  const GARNISH_SHAPES = [
-    // 1. Orange twist
-    { id: 'orange-twist', svg: '<path d="M6 34 C10 16, 26 8, 38 14 C48 20, 42 36, 28 34 C16 32, 18 18, 32 12 C44 7, 54 18, 54 26" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>' },
-    // 2. Lemon twist
-    { id: 'lemon-twist', svg: '<path d="M12 48 C6 32, 14 14, 30 10 C46 6, 52 24, 42 34 C32 44, 20 38, 22 26 C24 14, 40 8, 48 18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>' },
-    // 3. Lime wheel
-    { id: 'lime-wheel', svg: '<circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="30" cy="30" r="17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 3"/><circle cx="30" cy="30" r="3" fill="currentColor"/><path d="M30 13 L30 47 M13 30 L47 30 M18 18 L42 42 M18 42 L42 18" stroke="currentColor" stroke-width="1.2"/>' },
-    // 4. Lemon wheel
-    { id: 'lemon-wheel', svg: '<circle cx="30" cy="30" r="24" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="30" r="19" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="30" cy="30" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M30 11 L30 49 M11 30 L49 30 M17 17 L43 43 M17 43 L43 17" stroke="currentColor" stroke-width="1.4"/>' },
-    // 5. Dehydrated orange wheel
-    { id: 'dehydrated-orange', svg: '<circle cx="30" cy="30" r="23" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="30" cy="30" r="15" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M30 8 L30 52 M8 30 L52 30 M14 14 L46 46 M14 46 L46 14" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="30" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/>' },
-    // 6. Dehydrated lemon wheel
-    { id: 'dehydrated-lemon', svg: '<circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/><polygon points="30,12 36,24 48,30 36,36 30,48 24,36 12,30 24,24" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="30" cy="30" r="3" fill="currentColor"/>' },
-    // 7. Cocktail cherry
-    { id: 'cocktail-cherry', svg: '<circle cx="26" cy="36" r="14" fill="currentColor"/><path d="M26 22 C26 8, 44 4, 48 8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="22" cy="32" rx="3.5" ry="2" fill="rgba(255,245,210,0.4)"/>' },
-    // 8. Maraschino cherry pair
-    { id: 'cherry-pair', svg: '<circle cx="20" cy="38" r="11" fill="currentColor"/><circle cx="38" cy="35" r="10" fill="currentColor"/><path d="M20 27 C22 14, 30 6, 32 4 C34 6, 38 16, 38 25" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' },
-    // 9. Mint sprig
-    { id: 'mint-sprig', svg: '<path d="M30 48 L30 14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M30 36 C20 36, 14 30, 16 22 C24 22, 30 28, 30 36 Z" fill="currentColor"/><path d="M30 28 C40 28, 46 22, 44 14 C36 14, 30 20, 30 28 Z" fill="currentColor"/><path d="M30 16 C24 10, 26 4, 30 2 C34 4, 36 10, 30 16 Z" fill="currentColor"/>' },
-    // 10. Rosemary sprig
-    { id: 'rosemary-sprig', svg: '<path d="M30 52 L30 8" stroke="currentColor" stroke-width="2"/><path d="M30 42 L16 34 M30 38 L44 30 M30 30 L18 22 M30 26 L42 18 M30 18 L20 12 M30 14 L40 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>' },
-    // 11. Green olive on pick
-    { id: 'green-olive', svg: '<line x1="12" y1="52" x2="48" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><ellipse cx="30" cy="30" rx="12" ry="16" transform="rotate(-45 30 30)" fill="currentColor"/><circle cx="28" cy="28" r="4" fill="rgba(14,6,4,0.6)"/>' },
-    // 12. Cucumber ribbon
-    { id: 'cucumber-ribbon', svg: '<path d="M12 44 C24 48, 32 38, 22 28 C12 18, 34 10, 48 18 C38 28, 48 38, 42 46" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><path d="M16 42 C26 46, 30 36, 24 30 C16 22, 32 14, 44 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 3"/>' }
-  ];
+  const HOME_PLACEHOLDER_URL = '#home-placeholder'; // Replace with supplied main-page URL
 
   // Runtime State
   let puzzles = [];
@@ -48,6 +20,7 @@
   let guessHistory = [];
   let isComplete = false;
   let isWon = false;
+  let lastCardTapTime = 0;
 
   // DOM Elements
   const screens = {
@@ -85,226 +58,10 @@
     statPlayed: document.getElementById('stat-played'),
     statWinPct: document.getElementById('stat-win-pct'),
     statStreak: document.getElementById('stat-streak'),
-    statMaxStreak: document.getElementById('stat-max-streak'),
-    garnishStage: document.getElementById('garnish-stage')
+    statMaxStreak: document.getElementById('stat-max-streak')
   };
 
-  // =========================================================================
-  // LUXURY AMBIENT AUDIO SYSTEM (Synthetic Web Audio, Gesture-Safe, Optional)
-  // =========================================================================
-  let audioCtx = null;
-  function getAudioContext() {
-    if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
-      try {
-        const AudioClass = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioClass();
-      } catch (e) {
-        audioCtx = null;
-      }
-    }
-    if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume().catch(() => {});
-    }
-    return audioCtx;
-  }
-
-  const sound = {
-    tick: () => {
-      try {
-        const ctx = getAudioContext();
-        if (!ctx) return;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(1400, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1800, ctx.currentTime + 0.04);
-        gain.gain.setValueAtTime(0.018, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.04);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.045);
-      } catch (e) {}
-    },
-    tap: () => {
-      try {
-        const ctx = getAudioContext();
-        if (!ctx) return;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(520, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(260, ctx.currentTime + 0.06);
-        gain.gain.setValueAtTime(0.025, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.06);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.065);
-      } catch (e) {}
-    },
-    chimeSuccess: () => {
-      try {
-        const ctx = getAudioContext();
-        if (!ctx) return;
-        const freqs = [880, 1320];
-        freqs.forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          const startTime = ctx.currentTime + (idx * 0.09);
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(freq, startTime);
-          gain.gain.setValueAtTime(0.035, startTime);
-          gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.38);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(startTime);
-          osc.stop(startTime + 0.4);
-        });
-      } catch (e) {}
-    },
-    chimeError: () => {
-      try {
-        const ctx = getAudioContext();
-        if (!ctx) return;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(210, ctx.currentTime);
-        osc.frequency.linearRampToValueAtTime(140, ctx.currentTime + 0.18);
-        gain.gain.setValueAtTime(0.028, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.18);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.19);
-      } catch (e) {}
-    },
-    celebration: () => {
-      try {
-        const ctx = getAudioContext();
-        if (!ctx) return;
-        const chord = [523.25, 659.25, 783.99, 1046.50];
-        chord.forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          const startTime = ctx.currentTime + (idx * 0.12);
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, startTime);
-          gain.gain.setValueAtTime(0.038, startTime);
-          gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.65);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(startTime);
-          osc.stop(startTime + 0.68);
-        });
-      } catch (e) {}
-    }
-  };
-
-  // =========================================================================
-  // ANIMATED COCKTAIL GARNISH BACKGROUND SYSTEM
-  // =========================================================================
-  function initGarnishSystem() {
-    if (!dom.garnishStage) return;
-
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mediaQuery.matches) return;
-
-    const isMobile = window.innerWidth < 600;
-    const maxGarnishes = isMobile ? 7 : 14;
-    let currentGarnishes = 0;
-
-    function spawnGarnish() {
-      if (currentGarnishes >= maxGarnishes) {
-        scheduleNext();
-        return;
-      }
-
-      currentGarnishes++;
-      const garnish = document.createElement('div');
-      const shapeObj = GARNISH_SHAPES[Math.floor(Math.random() * GARNISH_SHAPES.length)];
-
-      // 3 Depth Levels: distant, mid, near
-      const depthRoll = Math.random();
-      let depthClass = 'garnish-depth-distant';
-      let size = 26 + Math.random() * 8;
-      let opacity = 0.15 + Math.random() * 0.15;
-      let duration = 26 + Math.random() * 12; // 26s - 38s
-      let color = 'rgba(196, 81, 29, ';
-
-      if (depthRoll > 0.65) {
-        depthClass = 'garnish-depth-near';
-        size = 38 + Math.random() * 12;
-        opacity = 0.32 + Math.random() * 0.18;
-        duration = 18 + Math.random() * 8; // 18s - 26s
-        color = 'rgba(245, 200, 110, ';
-      } else if (depthRoll > 0.3) {
-        depthClass = 'garnish-depth-mid';
-        size = 32 + Math.random() * 8;
-        opacity = 0.22 + Math.random() * 0.15;
-        duration = 22 + Math.random() * 9;
-        color = 'rgba(224, 130, 53, ';
-      }
-
-      garnish.className = `garnish-item ${depthClass}`;
-      garnish.style.width = `${size}px`;
-      garnish.style.height = `${size}px`;
-      garnish.style.left = `${Math.random() * 94}%`;
-      garnish.style.color = `${color}${opacity})`;
-
-      garnish.innerHTML = `<svg viewBox="0 0 60 60" aria-hidden="true">${shapeObj.svg}</svg>`;
-      dom.garnishStage.appendChild(garnish);
-
-      const horizontalDrift = (Math.random() - 0.5) * 80;
-      const startRotation = Math.random() * 360;
-      const endRotation = startRotation + (Math.random() > 0.5 ? 1 : -1) * (90 + Math.random() * 180);
-
-      const anim = garnish.animate([
-        {
-          transform: `translate(0, 0) rotate(${startRotation}deg)`,
-          opacity: 0
-        },
-        {
-          opacity: opacity,
-          offset: 0.15
-        },
-        {
-          opacity: opacity,
-          offset: 0.85
-        },
-        {
-          transform: `translate(${horizontalDrift}px, -${window.innerHeight + 140}px) rotate(${endRotation}deg)`,
-          opacity: 0
-        }
-      ], {
-        duration: duration * 1000,
-        easing: 'cubic-bezier(0.25, 0.5, 0.75, 1)',
-        fill: 'forwards'
-      });
-
-      anim.onfinish = () => {
-        garnish.remove();
-        currentGarnishes--;
-      };
-
-      scheduleNext();
-    }
-
-    function scheduleNext() {
-      const nextDelay = 1200 + Math.random() * 2400;
-      setTimeout(spawnGarnish, nextDelay);
-    }
-
-    // Seed initial batch gracefully
-    for (let i = 0; i < (isMobile ? 4 : 7); i++) {
-      setTimeout(spawnGarnish, i * 800);
-    }
-  }
-
-  // =========================================================================
-  // DATA PARSING & STORAGE
-  // =========================================================================
+  // CSV Parser with quote support
   function parseCSV(text) {
     const rows = [];
     let row = [];
@@ -382,6 +139,7 @@
     return list.sort((a, b) => a.date.localeCompare(b.date));
   }
 
+  // Robust Defensive Storage
   function loadStorage() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -391,7 +149,9 @@
           return parsed;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      // Fallback cleanly on parse error or private browsing restrictions
+    }
     return {
       version: 1,
       stats: { played: 0, won: 0, streak: 0, maxStreak: 0 },
@@ -402,7 +162,9 @@
   function saveStorage(state) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {}
+    } catch (e) {
+      // Storage quota or restriction failure handled gracefully
+    }
   }
 
   function getSavedGame(date) {
@@ -442,25 +204,20 @@
     saveStorage(store);
   }
 
-  // =========================================================================
-  // NAVIGATION & MODALS
-  // =========================================================================
+  // Navigation & Screens
   function showScreen(name) {
     Object.keys(screens).forEach(key => {
       screens[key].classList.toggle('hidden', key !== name);
     });
     window.scrollTo({ top: 0, behavior: 'instant' });
-    sound.tap();
   }
 
   function showModal(modal) {
     modal.classList.remove('hidden');
-    sound.tap();
   }
 
   function closeModal(modal) {
     modal.classList.add('hidden');
-    sound.tap();
   }
 
   let toastTimer = null;
@@ -468,12 +225,10 @@
     dom.toast.textContent = msg;
     dom.toast.classList.remove('hidden');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => dom.toast.classList.add('hidden'), 2200);
+    toastTimer = setTimeout(() => dom.toast.classList.add('hidden'), 2000);
   }
 
-  // =========================================================================
-  // GAMEPLAY LIFECYCLE
-  // =========================================================================
+  // Gameplay Setup
   function startPuzzle(puzzle, isArchive) {
     activePuzzle = puzzle;
     isArchiveMode = isArchive;
@@ -507,6 +262,7 @@
     showScreen('game');
   }
 
+  // Board Rendering
   function renderBoard() {
     // Solved category banners
     dom.solvedStack.innerHTML = '';
@@ -527,11 +283,58 @@
       const tile = document.createElement('button');
       tile.type = 'button';
       tile.className = 'tile';
+      tile.style.touchAction = 'manipulation';
       if (selectedWords.includes(word)) tile.classList.add('selected');
       if (isComplete) tile.disabled = true;
       tile.textContent = word;
       tile.setAttribute('aria-pressed', selectedWords.includes(word) ? 'true' : 'false');
-      tile.addEventListener('click', () => toggleSelect(word));
+
+      // Responsive touch handling for immediate single-tap on mobile
+      let startX = 0;
+      let startY = 0;
+      let isMoved = false;
+
+      const handleSelection = (e) => {
+        if (isComplete) return;
+        const now = Date.now();
+        if (now - lastCardTapTime < 350) return;
+        lastCardTapTime = now;
+        toggleSelect(word);
+      };
+
+      tile.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'touch') {
+          startX = e.clientX;
+          startY = e.clientY;
+          isMoved = false;
+        }
+      });
+
+      tile.addEventListener('pointermove', (e) => {
+        if (e.pointerType === 'touch') {
+          if (Math.hypot(e.clientX - startX, e.clientY - startY) > 10) {
+            isMoved = true;
+          }
+        }
+      });
+
+      tile.addEventListener('pointerup', (e) => {
+        if (e.pointerType === 'touch') {
+          if (!isMoved) {
+            e.preventDefault();
+            handleSelection(e);
+          }
+        }
+      });
+
+      tile.addEventListener('pointercancel', () => {
+        isMoved = true;
+      });
+
+      tile.addEventListener('click', (e) => {
+        handleSelection(e);
+      });
+
       dom.grid.appendChild(tile);
     });
 
@@ -555,26 +358,34 @@
     const idx = selectedWords.indexOf(word);
     if (idx > -1) {
       selectedWords.splice(idx, 1);
-      sound.tick();
     } else {
       if (selectedWords.length >= 4) return;
       selectedWords.push(word);
-      sound.tick();
     }
-    renderBoard();
+
+    // Update tile state in-place to avoid tearing down active touch targets
+    const tiles = dom.grid.querySelectorAll('.tile');
+    tiles.forEach(tile => {
+      const isSel = selectedWords.includes(tile.textContent);
+      tile.classList.toggle('selected', isSel);
+      tile.setAttribute('aria-pressed', isSel ? 'true' : 'false');
+    });
+
     updateControls();
   }
 
   function deselectAll() {
     selectedWords = [];
-    sound.tap();
-    renderBoard();
+    const tiles = dom.grid.querySelectorAll('.tile');
+    tiles.forEach(tile => {
+      tile.classList.remove('selected');
+      tile.setAttribute('aria-pressed', 'false');
+    });
     updateControls();
   }
 
   function shuffleTiles() {
     shuffleArray(unsolvedWords);
-    sound.tap();
     renderBoard();
   }
 
@@ -585,7 +396,6 @@
     const alreadyGuessed = guessHistory.some(g => [...g].sort().join('|') === guessKey);
     if (alreadyGuessed) {
       showToast('Already guessed');
-      sound.chimeError();
       return;
     }
 
@@ -603,12 +413,11 @@
     }
 
     if (matchedCat) {
-      sound.chimeSuccess();
       solvedCategories.push(matchedCat);
       unsolvedWords = unsolvedWords.filter(w => !matchedCat.items.includes(w));
       selectedWords = [];
 
-      // If 3 categories solved, auto-complete 4th
+      // If 3 categories are solved, auto-complete the 4th
       if (solvedCategories.length === 3) {
         const lastCat = activePuzzle.categories.find(c => !solvedCategories.includes(c));
         if (lastCat) {
@@ -628,7 +437,6 @@
       }
     } else {
       mistakesRemaining--;
-      sound.chimeError();
 
       const isOneAway = activePuzzle.categories.some(cat => {
         if (solvedCategories.includes(cat)) return false;
@@ -662,14 +470,11 @@
     renderBoard();
     updateControls();
     updateMenuStatus();
-    if (isWon) {
-      sound.celebration();
-    }
     setTimeout(showResultModal, 600);
   }
 
   function showResultModal() {
-    dom.resultMsg.textContent = isWon ? 'Magnificent! Puzzle Solved.' : 'Revealed. Better luck next time!';
+    dom.resultMsg.textContent = isWon ? 'Great job! Puzzle Solved.' : 'Revealed. Better luck next time!';
     dom.resultGrid.innerHTML = '';
 
     const wordLevelMap = {};
@@ -704,12 +509,9 @@
     } else {
       showToast('Copied to clipboard');
     }
-    sound.tap();
   }
 
-  // =========================================================================
-  // VIEWS & UI UPDATES
-  // =========================================================================
+  // Views & UI Updates
   function updateMenuStatus() {
     if (!todayPuzzle) return;
     dom.menuDate.textContent = todayPuzzle.date;
@@ -728,6 +530,7 @@
     }
   }
 
+  // Vault Archive (Section 5: Daily puzzle excluded from historical archive)
   function renderVault() {
     dom.vaultList.innerHTML = '';
     const archivePuzzles = puzzles.filter(p => p.date <= todayPuzzle.date && p.date !== todayPuzzle.date);
@@ -788,12 +591,9 @@
       .replace(/"/g, '&quot;');
   }
 
-  // =========================================================================
-  // INITIALIZATION & EVENT BINDING
-  // =========================================================================
+  // Initialization & Event Binding
   async function init() {
     dom.btnHome.setAttribute('href', HOME_PLACEHOLDER_URL);
-    initGarnishSystem();
 
     try {
       const res = await fetch('puzzles.csv', { cache: 'no-store' });
@@ -828,6 +628,7 @@
   }
 
   function bindEvents() {
+    // Universal Navigation Actions
     dom.btnPlayToday.addEventListener('click', () => startPuzzle(todayPuzzle, false));
 
     dom.btnOpenVault.addEventListener('click', () => {
@@ -835,6 +636,7 @@
       showScreen('vault');
     });
 
+    // Return to Menu from gameplay and vault
     dom.btnGameBack.addEventListener('click', () => {
       updateMenuStatus();
       showScreen('menu');
